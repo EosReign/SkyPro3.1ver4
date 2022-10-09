@@ -12,35 +12,18 @@ public class EmployeeService {
 
     public String addEmployee(String name, String surname) {
         Employee employee = new Employee(name, surname);
-        checkName(name);
-        checkSurname(surname);
-        if (StringUtils.isAllLowerCase(name)) {
+        validateInput(name, surname);
+        if (StringUtils.isAllLowerCase(name) || StringUtils.isAllLowerCase(surname)) {
             employee.setName(StringUtils.capitalize(name));
-        }
-        if (StringUtils.isAllLowerCase(surname)) {
             employee.setSurname(StringUtils.capitalize(surname));
         }
-        return employee.getFullName() + "успешно добавлен в лист";
-
+        return employee.getFullName() + " успешно добавлен в лист";
     }
 
-    private void checkName(String name) throws BadRequestException {
-        if (StringUtils.isWhitespace(name)) {
-            throw new BadRequestException("400 Bad Request");
-        } else if (StringUtils.isAlphanumericSpace(name)) {
-            throw new BadRequestException("400 Bad Request");
-        } else if (StringUtils.isAllUpperCase(name)) {
-            throw new BadRequestException("400 Bad Request");
-        }
-    }
-
-    private void checkSurname(String surname) throws BadRequestException {
-        if (StringUtils.isWhitespace(surname)) {
-            throw new BadRequestException("400 Bad Request");
-        } else if (StringUtils.isAlphanumericSpace(surname)) {
-            throw new BadRequestException("400 Bad Request");
-        } else if (StringUtils.isAllUpperCase(surname)) {
-            throw new BadRequestException("400 Bad Request");
+    private void validateInput(String name, String surname) throws BadRequestException {
+        if (!(StringUtils.isAlpha(name) && StringUtils.isAlpha(surname))) {
+            throw new BadRequestException();
         }
     }
 }
+//\
